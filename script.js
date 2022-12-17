@@ -1,5 +1,4 @@
 
- 
   var xhr =new XMLHttpRequest();
   xhr.open("GET","https://atec-web-design-table-default-rtdb.firebaseio.com/Group1.json",true)
   xhr.onreadystatechange =function(){
@@ -35,3 +34,5 @@
     }
   }
   xhr.send();
+
+

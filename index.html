@@ -24,7 +24,7 @@
   <!-- table  -->
   <div class="container">
     <h1 class="title">Web design </h1>
-    <table id="StudentsTable1" >
+    <table id="StudentsData" >
           <thead>
             <tr>
               <th>No.</th>
@@ -48,7 +48,86 @@
         </div>
       </footer>
         
-      <script src="script.js"></script>
+      <!-- <script src="script.js"></script> -->
     
+      <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore,addDoc,collection,getDocs,onSnapshot,getDoc,doc,updateDoc,deleteDoc,query,where,orderBy } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+      
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyB6HqmdPOrr2ja4fV10NxNr2N89HMGZnQ8",
+          authDomain: "crud-99b1e.firebaseapp.com",
+          projectId: "crud-99b1e",
+          storageBucket: "crud-99b1e.appspot.com",
+          messagingSenderId: "28434730819",
+          appId: "1:28434730819:web:f76cad6c636a2d196829f6"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const firestore=getFirestore(app);
+      
+  
+        //to show Data => 2 ways getDocs || onsnapshot
+      // getDocs(collection(firestore,"Students")).then((snapshot)=>{
+      //   snapshot.forEach((doc)=>{
+      //     console.log(doc.data());
+      //   })
+      // })
+      
+      async  function TestQuery(){
+    var q=query(collection(firestore,'Students'),orderBy('total','desc'));
+
+
+    var data=await getDocs(q);
+    data.forEach((doc)=>{
+        console.log(doc.data());
+        showStudent2(doc);
+    })
+    }
+
+    
+    TestQuery();
+
+    function showStudent2(student){
+  var studentData=student.data();
+  var tableBody=document.querySelector("#StudentsData>tbody");
+
+  var row=`
+  <tr>
+            <td></td>
+            <td>${studentData.stars>=1?`${studentData.stars} &times; <i class="fa-solid fa-star star"></i>`:""}</td>
+            <td>${studentData.name}</td>
+            <td>${studentData.lResult>0?`${studentData.lResult}`:""}</td>
+            <td>${studentData.total}</td>
+          </tr>
+    `;
+    tableBody.innerHTML +=row;
+}
+
+      function showStudent(student){
+        var studentData=student.data();
+        var tableBody=document.querySelector("#StudentsTable1>tbody");
+        tableBody.innerHTML="";
+        var row = `
+          <tr>
+            <td></td>
+            <td>${studentData.stars>=1?`${studentData.stars} &times; <i class="fa-solid fa-star star"></i>`:""}</td>
+            <td>${studentData.name}</td>
+            <td>${studentData.lResult}</td>
+            <td>${studentData.total}</td>
+          </tr>
+          `;
+          tableBody.innerHTML +=row;
+      }
+
+      // ***************************** 
+
+      </script>
 </body>
 </html>
